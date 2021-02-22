@@ -3,6 +3,7 @@ const scoreBoard = document.querySelector('.score');
 const moles = document.querySelectorAll('.mole');
 let lastHole;
 let timeUp;
+let score = 0;
 
 function randTime(min, max) {
   return Math.round(Math.random() * (max - min) + min);
@@ -33,6 +34,15 @@ function peep() {
 function startGame() {
   scoreBoard.textContent = 0;
   timeUp = false;
+  score = 0;
   peep();
   setTimeout(() => timeUp = true, 2000)
 }
+
+function bonk(e) {
+  if(!e.isTrusted) return;
+  score++;
+  this.classList.remove('up');
+  scoreBoard.textContent = score;
+}
+moles.forEach(mole => mole.addEventListener('click', bonk));
